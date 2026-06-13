@@ -3,6 +3,7 @@
 import { db } from "@/db";
 import { topics } from "@/db/schema";
 import { redirect } from "next/navigation";
+import { eq } from "drizzle-orm"
 
 type categoryType = "culture" | "ethics" | "history" | "philosophy" | "politics" | "psychology" | "religion" | "science" | "society" ;
 
@@ -16,7 +17,7 @@ export const addTopic = async (userId: string, formData: FormData) => {
 
     if (!title || !category || !description) return;
 
-    const insertedTopic = await db.insert(topics).values([{
+    await db.insert(topics).values([{
         posterId: userId,
         title: title,
         category: category,
@@ -26,4 +27,25 @@ export const addTopic = async (userId: string, formData: FormData) => {
     }]);
 
     return redirect("/")
+}
+
+
+export const joinDebate = async (topicId: string , data: FormData ) => {
+
+    const userId = data.get("userId") as string
+
+    if(!topicId || !userId) return;
+
+    await db.update(topics).set({status: "in debate", secondParticipantId: userId}).where(eq(topics.id, topicId))
+
+    redirect("/joineddebates")
+}
+
+
+export const deleteDebate = async (topicId: string) => {
+
+    if(!topicId) return;
+    await db.delete(topics).where(eq(topics.id, topicId))
+
+    redirect("/mytopics")
 }

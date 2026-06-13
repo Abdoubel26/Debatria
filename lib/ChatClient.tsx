@@ -2,7 +2,7 @@
 import  Image  from "next/image"
 import  Link  from "next/link"
 import { usePathname } from "next/navigation";
-import { ArrowUp } from "lucide-react"
+import { ArrowUp, Frown, MessageSquarePlus } from "lucide-react"
 import { useState } from "react";
 import { InferSelectModel } from "drizzle-orm";
 import { messages, users } from "@/db/schema"
@@ -50,13 +50,13 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
   return (
     <>
     <div className="flex-1 flex flex-col h-full border-r border-gray-800 p-6 justify-between">
-        <div>
+        { selectedUser ? <><div>
 
           <div className="border-b border-gray-800 pb-4 mb-4 flex items-center gap-3">
             <div className="relative h-10 w-10">
               <Image
-                src={selectedUser?.imageUrl!}
-                alt={selectedUser?.name!}
+                src={selectedUser?.imageUrl || defaultpfp }
+                alt={selectedUser?.name || "user"}
                 fill
                 className="rounded-full object-cover"
               />
@@ -68,13 +68,14 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
           </div>
 
           <div className="text-sm text-slate-300 space-y-4">
-            <p className="italic text-slate-500">
-              Viewing conversation history with {selectedUser?.name}...
-            </p>
-            <div className="bg-gray-800/40 border border-gray-800 rounded-2xl p-4 max-w-[80%]">
-              <p className="text-xs font-semibold text-violet-400 mb-1">{selectedUser?.name}</p>
-              "LASTMESSAGE"
-            </div>
+            {messages.map((msg) => {
+              return (
+              <div className="bg-gray-800/40 border border-gray-800 rounded-2xl p-4 max-w-[80%]">
+                {msg.text}
+                </div> 
+            )})}
+              
+           
           </div>
         </div>
 
@@ -85,6 +86,29 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
                 <ArrowUp />
             </button>
         </div>
+        </>
+        :
+        <div className="flex flex-1 flex-col items-center justify-center bg-gray-900 p-8 text-center h-full border border-gray-800/40 rounded-2xl backdrop-blur-sm m-4">
+
+          <div className="flex h-20 w-20 items-center justify-center rounded-3xl border border-gray-800 bg-gray-800/20 text-indigo-400 mb-6 shadow-xl relative group">
+
+            <div className="absolute inset-0 bg-indigo-500/10 rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition-opacity" />
+            <MessageSquarePlus className="w-10 h-10 stroke-[1.5] relative z-10 animate-pulse" />
+          </div>
+
+          <h2 className="text-xl font-bold text-white tracking-tight">
+            Your Debating Will Happen Here
+          </h2>
+
+          <p className="mt-2 text-sm text-slate-400 max-w-sm leading-relaxed">
+            Select an active discussion from your list to open the argument panel, or head over to the dashboard to join a brand new topic.
+          </p>
+
+          <Link href={"/"}><button className="mt-6 rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg hover:bg-indigo-500 active:scale-95 transition-all cursor-pointer">
+            Explore Open Debates
+          </button></Link>
+        </div>
+        }
 
       </div>
 
@@ -92,7 +116,7 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 px-2 mb-1">
           Active Debates
         </h3>
-    {topics.map((topic: EnrichedTopic) => {
+    {topics[0] ?  topics.map((topic: EnrichedTopic) => {
           const isSelected = selectedUser?.clerkId === topic.poster.clerkId
 
 
@@ -136,7 +160,23 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
               </div>
             </button>
           );
-        })}
+        })
+        : 
+        <div className="flex flex-1 flex-col items-center justify-center text-center p-8 my-auto">
+      <div className="flex h-30 w-30 items-center justify-center rounded-2xl border border-gray-800 bg-gray-800/30 text-slate-500 mb-4 shadow-inner backdrop-blur-sm">
+        <Frown className="w-16 h-16 stroke-[1.5]" />
+      </div>
+      
+      <h3 className="text-2xl p-1.5 font-semibold text-slate-200 tracking-tight">
+        You haven't published any debates yet!
+      </h3>
+      <p className="p-1 text-md text-slate-500 max-w-xs">
+        Your active discussions will show up here. Go explore some topics to join the conversation!
+      </p>
+
+      { userId && <Link href={"/new"} ><button className="bg-slate-300 m-1.5 text-black text-lg rounded-2xl p-2 cursor-pointer font-semibold">Create New</button></Link>}
+    </div>
+      }
         </div>
     </>
   )

@@ -2,6 +2,9 @@ import { db } from '@/db';
 import { topics, users } from '@/db/schema';
 import { eq, aliasedTable } from "drizzle-orm"
 import { auth } from "@clerk/nextjs/server"
+import { deleteDebate } from '@/lib/actions/actions';
+import { Frown } from "lucide-react"
+import Link from 'next/link';
 
 interface EnrichedTopic {
   id: string;
@@ -57,7 +60,11 @@ async function MyTopics() {
 
   return (
        <div className="flex flex-col flex-1 gap-4 overflow-y-scroll p-4 bg-gray-900">
-  {fetchedTopics.map((tpc) => {
+  { 
+  fetchedTopics[0] 
+  ?
+
+  fetchedTopics.map((tpc) => {
 
     return (
       <div
@@ -116,21 +123,40 @@ async function MyTopics() {
                 )}
               </div>
 
+              {userId &&
               <button
-                className={`rounded-xl px-4 py-2 text-sm font-medium transition-all ${
-                  tpc.status === "open"
-                    ? "bg-slate-100 text-slate-950 hover:bg-white shadow-sm"
-                    : "bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700"
-                }`}
+                formAction={deleteDebate.bind(null, tpc.id)}
+                className={`rounded-xl cursor-pointer px-4 py-2 text-sm font-medium transition-all bg-red-700 text-white hover:bg-red-800 shadow-sm`}
               >
-                {tpc.status === "open" ? "Challenge" : "View Debate"}
+                Delete
               </button>
+              }
+              
             </div>
           </div>
         </div>
       </div>
     );
-  })}
+  })
+  :
+  (
+    <div className="flex flex-1 flex-col items-center justify-center text-center p-8 my-auto">
+      <div className="flex h-30 w-30 items-center justify-center rounded-2xl border border-gray-800 bg-gray-800/30 text-slate-500 mb-4 shadow-inner backdrop-blur-sm">
+        <Frown className="w-16 h-16 stroke-[1.5]" />
+      </div>
+      
+      <h3 className="text-2xl p-1.5 font-semibold text-slate-200 tracking-tight">
+        You haven't published any debates yet!
+      </h3>
+      <p className="p-1 text-md text-slate-500 max-w-xs">
+        Your active discussions will show up here. Go explore some topics to join the conversation!
+      </p>
+
+      { userId && <Link href={"/new"} ><button className="bg-slate-300 m-1.5 text-black text-lg rounded-2xl p-2 cursor-pointer font-semibold">Create New</button></Link>}
+    </div>
+  )
+
+}
 </div>
   )
 }
