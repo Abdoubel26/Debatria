@@ -3,6 +3,26 @@ import { topics, users } from '@/db/schema';
 import { eq, aliasedTable } from "drizzle-orm"
 import React from 'react'
 
+
+interface EnrichedTopic {
+  id: string;
+  title: string;
+  description: string | null;
+  category: "culture" | "ethics" | "history" | "philosophy" | "politics" | "psychology" | "religion" | "science" | "society";
+  status: "open" | "in_debate" | "ended";
+  createdAt: Date | string;
+  poster: {
+    name: string;
+    image: string | null;
+    clerkId: string;
+  };
+  secondParticipant: {
+    name: string;
+    image: string | null;
+    clerkId: string;
+  } | null; 
+}
+
 async function Feed() {
 
   const posters = aliasedTable(users, "posters");
@@ -29,7 +49,7 @@ async function Feed() {
     })
     .from(topics)
     .innerJoin(posters, eq(topics.posterId, posters.clerkId))
-    .leftJoin(opponents, eq(topics.secondParticipantId, opponents.clerkId));
+    .leftJoin(opponents, eq(topics.secondParticipantId, opponents.clerkId)) as unknown as EnrichedTopic[]
 
   return (
        <div className="flex flex-col flex-1 gap-4 overflow-y-scroll p-4 bg-gray-900">
@@ -61,7 +81,7 @@ async function Feed() {
                 className={`rounded-full px-3 py-1 text-xs font-semibold ${
                   tpc.status === "open"
                     ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                    : tpc.status === "in debate"
+                    : tpc.status === "in_debate"
                     ? "bg-blue-500/10 text-blue-400 border border-blue-500/20"
                     : "bg-slate-700/30 text-slate-400 border border-slate-700/50"
                 }`}
