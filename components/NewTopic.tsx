@@ -4,6 +4,7 @@ import { addTopic } from "../lib/actions/actions"
 import { redirect } from 'next/navigation';
 import Form from 'next/dist/client/app-dir/form';
 import { FormData } from 'next/dist/compiled/@edge-runtime/primitives';
+import AddBtn from '@/lib/client-buttons/AddBtn';
 
 async function NewTopic() {
 
@@ -104,12 +105,7 @@ async function NewTopic() {
             >
               Cancel
             </button>
-            <button
-              type="submit"
-              className="rounded-xl cursor-pointer bg-slate-100 px-5 py-2.5 text-sm font-semibold text-slate-950 shadow-sm transition hover:bg-white active:scale-[0.98]"
-            >
-              Publish Topic
-            </button>
+            <AddBtn />
           </div>
 
         </form>

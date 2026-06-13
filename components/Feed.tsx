@@ -3,7 +3,8 @@ import { topics, users } from '@/db/schema';
 import { eq, aliasedTable } from "drizzle-orm"
 import React from 'react'
 import { auth } from "@clerk/nextjs/server"
-import { deleteDebate, joinDebate } from '@/lib/actions/actions';
+import DeleteBtn from '@/lib/client-buttons/DeleteBtn';
+import JoinBtn from '@/lib/client-buttons/JoinBtn';
 
 
 interface EnrichedTopic {
@@ -117,25 +118,11 @@ async function Feed() {
               { userId === tpc.poster.clerkId ? 
                userId && <form>
                 <input value={userId} name="userId" hidden />
-              <button
-                formAction={deleteDebate.bind(null, tpc.id)}
-                className={`rounded-xl cursor-pointer px-4 py-2 text-sm font-medium transition-all bg-red-700 text-white hover:bg-red-800 shadow-sm`}
-              >
-                Delete
-              </button>
+              <DeleteBtn topicId={tpc.id} />
               </form>
               :
               userId && <form>
-              <button
-                formAction={joinDebate.bind(null, tpc.id)}
-                className={`rounded-xl cursor-pointer px-4 py-2 text-sm font-medium transition-all ${
-                  tpc.status === "open"
-                    ? "bg-slate-100 text-slate-950 hover:bg-white shadow-sm"
-                    : "bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700"
-                }`}
-              >
-                {tpc.status === "open" ? "Join Debate" : "View Debate"}
-              </button>
+                <JoinBtn topic={tpc} />
               </form>
               }
               

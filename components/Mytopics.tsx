@@ -2,28 +2,10 @@ import { db } from '@/db';
 import { topics, users } from '@/db/schema';
 import { eq, aliasedTable } from "drizzle-orm"
 import { auth } from "@clerk/nextjs/server"
-import { deleteDebate } from '@/lib/actions/actions';
 import { Frown } from "lucide-react"
 import Link from 'next/link';
+import DeleteBtn from '@/lib/client-buttons/DeleteBtn';
 
-interface EnrichedTopic {
-  id: string;
-  title: string;
-  description: string | null;
-  category: "culture" | "ethics" | "history" | "philosophy" | "politics" | "psychology" | "religion" | "science" | "society";
-  status: "open" | "in_debate" | "ended";
-  createdAt: Date | string;
-  poster: {
-    name: string;
-    image: string | null;
-    clerkId: string;
-  };
-  secondParticipant: {
-    name: string;
-    image: string | null;
-    clerkId: string;
-  } | null; 
-}
 
 const defaultpfp = "https://plus.unsplash.com/premium_photo-1677252438411-9a930d7a5168?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZGVmYXVsdCUyMHByb2ZpbGUlMjBwaWN0dXJlfGVufDB8fDB8fHww"
 
@@ -124,12 +106,10 @@ async function MyTopics() {
               </div>
 
               {userId &&
-              <button
-                formAction={deleteDebate.bind(null, tpc.id)}
-                className={`rounded-xl cursor-pointer px-4 py-2 text-sm font-medium transition-all bg-red-700 text-white hover:bg-red-800 shadow-sm`}
-              >
-                Delete
-              </button>
+              <form>
+                <input value={userId} name="userId" hidden />
+              <DeleteBtn topicId={tpc.id} />
+              </form>
               }
               
             </div>
