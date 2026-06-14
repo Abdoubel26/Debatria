@@ -115,7 +115,9 @@ async function Feed() {
                   </span>
                 )}
               </div>
-              { userId === tpc.poster.clerkId ? 
+
+              { 
+              userId === tpc.poster.clerkId ? 
                userId && <form>
                 <input value={userId} name="userId" hidden />
               <DeleteBtn topicId={tpc.id} />
