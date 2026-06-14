@@ -117,16 +117,11 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
           Active Debates
         </h3>
     {topics[0] ?  topics.map((topic: EnrichedTopic) => {
-          const isSelected = selectedUser?.clerkId === topic.poster.clerkId
-
-
           const foundUser = users.find(usr => usr?.clerkId === topic.poster.clerkId);
 
-          if (foundUser) {
-            setSelectedUser(foundUser);
-          } else {
-            return
-          }
+          if (!foundUser) return null;
+
+        const isSelected = selectedUser?.clerkId === foundUser.clerkId;
 
           return (
             <button

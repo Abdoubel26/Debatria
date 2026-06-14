@@ -1,6 +1,4 @@
-import React, { use } from 'react'
 import { auth } from "@clerk/nextjs/server"
-import  Link  from "next/link"
 import SidebarLinks from '@/lib/SidebarLinks';
 
 async function Sidebar() {
