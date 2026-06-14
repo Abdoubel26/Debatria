@@ -122,6 +122,7 @@ async function Feed() {
               </form>
               :
               userId && <form>
+                <input value={userId} name="userId" hidden />
                 <JoinBtn topic={tpc} />
               </form>
               }
