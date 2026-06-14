@@ -1,13 +1,16 @@
-import React from 'react'
-import { Home, Lightbulb, UserRoundPlus, MessageSquare, User } from "lucide-react"
+import React, { use } from 'react'
+import { auth } from "@clerk/nextjs/server"
 import  Link  from "next/link"
 import SidebarLinks from '@/lib/SidebarLinks';
 
-function Sidebar() {
+async function Sidebar() {
+
+  const { userId } = await auth()
+  
   return (
     <div className=" flex flex-col gap-2 p-3 w-72 h-full border-r border-gray-800 bg-gray-900  text-white  select-none">
 
-       <SidebarLinks />
+       <SidebarLinks userId={userId} />
 
     </div>
   )

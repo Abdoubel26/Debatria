@@ -5,15 +5,25 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Lightbulb, UserRoundPlus, MessageSquare, User } from "lucide-react";
 
-export default function SidebarLinks() {
+type PropTypes = {
+  userId: string | null
+}
+
+export default function SidebarLinks({userId} : PropTypes) {
   const pathname = usePathname();
 
-  const links = [
+  const links =  userId ? [
     { href: "/", label: "Feed", icon: Home },
     { href: "/mytopics", label: "My Topics", icon: Lightbulb },
     { href: "/joineddebates", label: "Joined Debates", icon: UserRoundPlus },
     { href: "/chat", label: "Debate Chat", icon: MessageSquare },
-  ];
+  ] 
+  : 
+  [
+    { href: "/", label: "Feed", icon: Home },
+    { href: "/mytopics", label: "My Topics", icon: Lightbulb },
+    { href: "/joineddebates", label: "Joined Debates", icon: UserRoundPlus },
+  ]
 
   return (
     <>

@@ -41,7 +41,6 @@ async function ChatPage() {
     eq(topics.secondParticipantId, userId as string)
   )) as unknown as EnrichedTopic[]
 
-
     const fetchedUsers = await db.select().from(users)
 
     const fetchedMessages = await db.select().from(messages).where(and(eq(messages.senderId, userId as string), inArray(messages.topicId, fetchedTopics.map(tpc => tpc.id))))
