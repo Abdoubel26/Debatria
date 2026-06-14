@@ -2,7 +2,7 @@ import Image from "next/image";
 import { ArrowUp } from "lucide-react";
 import { db } from '@/db';
 import { messages, topics, users } from '@/db/schema';
-import { eq, aliasedTable, and, inArray } from "drizzle-orm"
+import { eq, aliasedTable, or, and , inArray } from "drizzle-orm"
 import { auth } from "@clerk/nextjs/server"
 import ChatClient from "@/lib/ChatClient";
 
@@ -36,7 +36,11 @@ async function ChatPage() {
     .from(topics)
     .innerJoin(posters, eq(topics.posterId, posters.clerkId))
     .leftJoin(opponents, eq(topics.secondParticipantId, opponents.clerkId))
-    .where(and(eq(topics.secondParticipantId, userId as string), eq(topics.posterId, userId as string))) as unknown as EnrichedTopic[]
+    .where(or(
+    eq(topics.posterId, userId as string),
+    eq(topics.secondParticipantId, userId as string)
+  )) as unknown as EnrichedTopic[]
+
 
     const fetchedUsers = await db.select().from(users)
 
