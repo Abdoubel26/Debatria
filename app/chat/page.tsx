@@ -43,7 +43,25 @@ async function ChatPage() {
 
     const fetchedUsers = await db.select().from(users)
 
-    const fetchedMessages = await db.select().from(messages).where(and(eq(messages.senderId, userId as string), inArray(messages.topicId, fetchedTopics.map(tpc => tpc.id))))
+    const fetchedMessages = await db.select({
+      id: messages.id,
+      text: messages.text,
+      topicId: messages.topicId,
+      senderId: messages.senderId,
+      isRead: messages.isRead,
+      createdAt: messages.createdAt,
+      topic: {
+        id: topics.id,
+        posterId: topics.posterId,
+        title: topics.title,
+        description: topics.description,
+        category: topics.category,
+        status: topics.status,
+        seconnParticipantId: topics.secondParticipantId,
+        createdAt: topics.createdAt,
+
+      }
+    }).from(messages).where(and(eq(messages.senderId, userId as string), inArray(messages.topicId, fetchedTopics.map(tpc => tpc.id))))
 
   return (
     <div className="flex flex-1 h-[calc(100vh-65px)] bg-gray-900 text-white overflow-hidden">

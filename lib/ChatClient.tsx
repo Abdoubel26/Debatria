@@ -102,7 +102,7 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            placeholder={`Type a response  ${selectedUser?.name ? "to " + selectedUser.name  : ""}...`} 
+            placeholder={`Type a response ${selectedUser?.name ? "to " + selectedUser.name  : ""}...`} 
             className="bg-gray-800/30 border border-gray-800 w-full rounded-xl p-3 text-sm text-white placeholder:text-slate-500 focus:outline-0"> 
             </input>
             <button 
@@ -118,7 +118,7 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
           <div className="flex h-20 w-20 items-center justify-center rounded-3xl border border-gray-800 bg-gray-800/20 text-indigo-400 mb-6 shadow-xl relative group">
 
             <div className="absolute inset-0 bg-indigo-500/10 rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition-opacity" />
-            <MessageSquarePlus className="w-10 h-10 stroke-[1.5] relative z-10 animate-pulse" />
+            <MessageSquarePlus className="w-10 h-10 stroke-[1.5] relative z-10" />
           </div>
 
           <h2 className="text-xl font-bold text-white tracking-tight">
@@ -129,9 +129,7 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
             Select an active discussion from your list to open the argument panel, or head over to the dashboard to join a brand new topic.
           </p>
 
-          <Link href={"/"}><button className="mt-6 rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg hover:bg-indigo-500 active:scale-95 transition-all cursor-pointer">
-            Explore Open Debates
-          </button></Link>
+    
         </div>
         }
 
@@ -149,20 +147,18 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
          
         const isSelected = selectedUser?.clerkId === foundUser.clerkId;
         const isMyTopic = topic.poster.clerkId === userId
-        const noSecondUser = topic.secondParticipant ? true : false
-        const myEmptyTopic = isMyTopic && noSecondUser
-        let src = ""
+        const hasOpponent = !!topic.secondParticipant; 
+        const myEmptyTopic = isMyTopic && hasOpponent
 
-        if(!isMyTopic) {
-          src = topic.poster.image || defaultpfp
-        }
-        else if(isMyTopic){
-          if(noSecondUser){
-            src = topic.secondParticipant?.image!
-          }
-          if(myEmptyTopic){
-            src = defaultpfp
-          }
+        let src = defaultpfp;
+
+        if (!isMyTopic) {
+          src = topic.poster.image || defaultpfp;
+        } else if (hasOpponent) {
+          src = topic.secondParticipant?.image || defaultpfp;
+        } 
+        else {
+          src = defaultpfp;
         }
 
         const secondParticipant = users.find((usr) => usr?.clerkId === topic.secondParticipant?.clerkId)
