@@ -117,7 +117,7 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
 
           <div className="flex h-20 w-20 items-center justify-center rounded-3xl border border-gray-800 bg-gray-800/20 text-indigo-400 mb-6 shadow-xl relative group">
 
-          <div className="absolute inset-0 bg-indigo-500/10 rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute inset-0 bg-indigo-500/10 rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition-opacity" />
             <MessageSquarePlus className="w-10 h-10 stroke-[1.5] relative z-10" />
           </div>
 
@@ -145,7 +145,7 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
           if (!foundUser) return null;
 
          
-        const isSelected = selectedUser?.clerkId === foundUser.clerkId;
+        const isSelected = activeTopic?.id === topic.id;
         const isMyTopic = topic.poster.clerkId === userId
         const hasOpponent = !!topic.secondParticipant; 
         const myEmptyTopic = isMyTopic && hasOpponent
@@ -162,10 +162,14 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
         }
 
         const secondParticipant = users.find((usr) => usr?.clerkId === topic.secondParticipant?.clerkId)
+        const selectedTopicUser = foundUser.clerkId === userId ? (secondParticipant ?? null) : foundUser;
 
           return (
             <button
-            onClick={() => setSelectedUser(foundUser.clerkId === userId ? (secondParticipant ?? null) : foundUser )}
+            onClick={() => {
+              setSelectedUser(selectedTopicUser);
+              setActiveTopic(topic);
+            }}
               key={topic.id}
               className={`w-full flex flex-row items-center gap-3 p-3 rounded-2xl transition-all text-left outline-none border ${
                 isSelected
