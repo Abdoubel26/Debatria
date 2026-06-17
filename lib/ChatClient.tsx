@@ -117,7 +117,7 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
 
           <div className="flex h-20 w-20 items-center justify-center rounded-3xl border border-gray-800 bg-gray-800/20 text-indigo-400 mb-6 shadow-xl relative group">
 
-            <div className="absolute inset-0 bg-indigo-500/10 rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition-opacity" />
+          <div className="absolute inset-0 bg-indigo-500/10 rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition-opacity" />
             <MessageSquarePlus className="w-10 h-10 stroke-[1.5] relative z-10" />
           </div>
 
