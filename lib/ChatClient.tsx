@@ -145,7 +145,7 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
           if (!foundUser) return null;
 
          
-        const isSelected = activeTopic?.id === topic.id;
+        const isSelected = selectedUser?.clerkId === foundUser.clerkId;
         const isMyTopic = topic.poster.clerkId === userId
         const hasOpponent = !!topic.secondParticipant; 
         const myEmptyTopic = isMyTopic && hasOpponent
@@ -162,13 +162,12 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
         }
 
         const secondParticipant = users.find((usr) => usr?.clerkId === topic.secondParticipant?.clerkId)
-        const selectedTopicUser = foundUser.clerkId === userId ? (secondParticipant ?? null) : foundUser;
 
           return (
             <button
-            onClick={() => {
-              setSelectedUser(selectedTopicUser);
-              setActiveTopic(topic);
+            onClick={() =>{ 
+              setSelectedUser(foundUser.clerkId === userId ? (secondParticipant ?? null) : foundUser )
+              setActiveTopic(topic)
             }}
               key={topic.id}
               className={`w-full flex flex-row items-center gap-3 p-3 rounded-2xl transition-all text-left outline-none border ${
