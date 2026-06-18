@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^7.5.1",
+    "agora-rtc-sdk-ng": "^4.24.4",
+    "agora-token": "^2.0.5",
     "drizzle-orm": "^0.45.2",
     "lucide-react": "^1.17.0",
     "next": "16.2.9",

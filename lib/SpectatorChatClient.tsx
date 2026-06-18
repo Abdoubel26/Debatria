@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
 import PusherClient from "pusher-js";
-// import AgoraVideoCall from "@/components/AgoraVideoCall";
+import AgoraVideoCall from "@/components/AgoraVideoCall";
 import { InferSelectModel } from "drizzle-orm";
 import { messages, topics, users } from "@/db/schema";
 
@@ -17,8 +16,6 @@ interface Props {
   posterUser: UserType | null;
   opponentUser: UserType | null;
 }
-
-const defaultpfp = "https://plus.unsplash.com/premium_photo-1677252438411-9a930d7a5168?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZGVmYXVsdCUyMHByb2ZpbGUlMjBwaWN0dXJlfGVufDB8fDB8fHww"
 
 export default function SpectatorChatClient({ topic, pastMessages, posterUser, opponentUser }: Props) {
   const [chatMessages, setChatMessages] = useState<MessageType[]>(pastMessages);
@@ -56,7 +53,6 @@ export default function SpectatorChatClient({ topic, pastMessages, posterUser, o
   return (
     <div className="flex-1 flex flex-col h-full border-r border-gray-800 p-6 px-2 justify-between max-w-5xl mx-auto w-full bg-gray-900">
       <div>
-        {/* Dynamic Header Panel matching Cockpit structure */}
 
         <div className="border-b border-gray-800 pb-4 mb-4 flex justify-between items-center">
           <div className="flex w-full items-center gap-3">
@@ -74,20 +70,6 @@ export default function SpectatorChatClient({ topic, pastMessages, posterUser, o
           </div>
         </div>
 
-        {/* Dynamic Live Media Block 
-        <div className="mb-4 w-full">
-          {currentStatus === "in_debate" ? (
-            <AgoraVideoCall 
-              channelName={`debate-${topic.id}`}
-              isPublisher={false} 
-              userId="audience_member"
-            />
-          ) : (
-            <div className="w-full text-center p-6 bg-red-950/10 border border-red-900/30 rounded-2xl text-red-400 font-medium text-sm select-none">
-              🔒 This debate stage has officially concluded. Video feeds disconnected.
-            </div>
-          )}
-        </div> */}
 
         <div className="text-sm text-slate-300 overflow-y-scroll w-full h-88 scrollbar-none pt-2 pb-3 flex flex-col space-y-4">
           {chatMessages.map((msg) => {

@@ -1,12 +1,22 @@
 "use client"
 import  Image  from "next/image"
-import { ArrowUp, MessageSquarePlus } from "lucide-react"
 import { useState, useEffect, useRef } from "react";
+import { ArrowUp, MessageSquarePlus, Video, Phone } from "lucide-react";
 import PusherClient from "pusher-js";
 import { sendMessageAction } from "./actions/chatActions";
 import { InferSelectModel, is } from "drizzle-orm";
-import { messages, users } from "@/db/schema"
+import { users } from "@/db/schema"
 import EndBtn from "./client-buttons/EndBtn";
+import dynamic from "next/dynamic";
+
+const AgoraVideoCall = dynamic(() => import("@/components/AgoraVideoCall"), {
+  ssr: false, 
+  loading: () => (
+    <div className="w-full h-64 min-h-64 bg-gray-950 border border-gray-800 rounded-2xl flex items-center justify-center text-slate-500 text-xs italic animate-pulse">
+      Loading video module...
+    </div>
+  ),
+});
 
 type UserType = InferSelectModel<typeof users> | null
 
@@ -44,7 +54,6 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
         if (prev.some((m) => m.id === newMessage.id)) return prev;
         return [...prev, newMessage];
       });
-    
     })
 
       return () => {
@@ -68,11 +77,15 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
   };
 
   const currentTopicMessages = chatMessages.filter(msg => msg.topicId === activeTopic?.id);
+  const isParticipant = userId === activeTopic?.poster.clerkId || userId === activeTopic?.secondParticipant?.clerkId
 
   return (
     <>
     <div className="flex-1 flex flex-col h-full border-r border-gray-800  p-6 px-2 justify-between">
         { selectedUser ? <><div>
+
+
+  
 
           <div className="border-b border-gray-800 pb-4 mb-4 flex justify-between items-center ">
            <div className="flex gap-3">
@@ -90,12 +103,20 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
               </div>
             </div>
             <div>
+            {activeTopic?.status === "in_debate" && (
+                <div className="mb-4 w-full px-2">
+                  <AgoraVideoCall 
+                    channelName={`debate-${activeTopic.id}`}
+                    isPublisher={isParticipant} 
+                  />
+                </div>
+            )}
             { userId && activeTopic && activeTopic.status !== "ended" &&  <form> <EndBtn userId={userId} topicId={activeTopic?.id} /> </form>}
             </div>
           </div>
 
           <div className="text-sm text-slate-300 overflow-y-scroll w-full h-88 scrollbar-none pt-2 pb-3 flex flex-col space-y-4">
-            {currentTopicMessages.map((msg) => {
+            {currentTopicMessages.reverse().map((msg) => {
               const isMe = msg.senderId === userId;
               return (
                 <div 
@@ -218,9 +239,6 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
                 <p className="text-xs text-violet-400/90 truncate font-medium mt-0.5">
                   {isMyTopic ? (topic.secondParticipant?.name ?? "No debater joined yet.") : topic.poster.name}
                 </p>
-                <p className="text-[11px] text-slate-500 truncate mt-0.5">
-                 {messages.find((msg) => users.map(user => user?.clerkId).includes(msg.senderId))?.text}
-                </p>
               </div>
             </button>
           );
@@ -246,5 +264,4 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
   )
 }
 
-export default ChatClient
-
+export default ChatClient;
