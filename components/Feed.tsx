@@ -62,7 +62,7 @@ async function Feed() {
       className={`rounded-full px-3 py-1 text-xs font-semibold select-none capitalize ${
         tpc.status === "open"
           ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-          : tpc.status === "in_debate"
+          : tpc.status === "in debate"
           ? "bg-blue-500/10 text-blue-400 border border-blue-500/20"
           : "bg-slate-700/30 text-slate-400 border border-slate-700/50"
       }`}

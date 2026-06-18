@@ -1,7 +1,7 @@
 "use client"
 import  Image  from "next/image"
 import { useState, useEffect, useRef } from "react";
-import { ArrowUp, MessageSquarePlus, Video, Phone } from "lucide-react";
+import { ArrowUp, MessageSquarePlus } from "lucide-react";
 import PusherClient from "pusher-js";
 import { sendMessageAction } from "./actions/chatActions";
 import { InferSelectModel, is } from "drizzle-orm";
@@ -102,9 +102,10 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
                 <p className="text-xs text-violet-400 font-medium">{topics.find((tpc) => tpc.poster.clerkId === selectedUser?.clerkId || tpc.secondParticipant?.clerkId === userId)?.title}</p>
               </div>
             </div>
-            <div>
-            {activeTopic?.status === "in_debate" && (
-                <div className="mb-4 w-full px-2">
+              
+            <div className="flex flex-row justify-center items-center gap-2">
+              {activeTopic?.status === "in debate" && (
+                <div className=" px-2">
                   <AgoraVideoCall 
                     channelName={`debate-${activeTopic.id}`}
                     isPublisher={isParticipant} 

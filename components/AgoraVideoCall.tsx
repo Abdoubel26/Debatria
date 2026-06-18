@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import AgoraRTC, { IAgoraRTCClient, ICameraVideoTrack, IMicrophoneAudioTrack, IAgoraRTCRemoteUser } from "agora-rtc-sdk-ng";
-import { Video, Phone, VideoOff } from "lucide-react";
+import { Video, Phone, VideoOff, PhoneOff } from "lucide-react";
 
 interface AgoraProps {
   channelName: string;
@@ -27,13 +27,14 @@ export default function AgoraVideoCall({ channelName, isPublisher }: AgoraProps)
 
       agoraClient.on("user-published", async (user, mediaType) => {
         await agoraClient.subscribe(user, mediaType);
-        if (mediaType === "video") {
-          setRemoteUsers((prev) => [...prev.filter(u => u.uid !== user.uid), user]);
-        }
+        
+        setRemoteUsers((prev) => [...prev.filter(u => u.uid !== user.uid), user]);
+
         if (mediaType === "audio") {
           user.audioTrack?.play();
         }
       });
+
 
       agoraClient.on("user-unpublished", (user, mediaType) => {
         if (mediaType === "video") {
@@ -81,25 +82,25 @@ export default function AgoraVideoCall({ channelName, isPublisher }: AgoraProps)
 
   if (callMode === "idle") {
     return (
-      <div className="w-full h-48 bg-gray-950 border border-gray-800 rounded-2xl flex flex-col items-center justify-center p-4 text-center gap-3">
-        <p className="text-xs font-medium text-slate-400">Connect to the live stage</p>
-        <div className="flex gap-2">
+      <>
+        <div className="flex">
+
           <button
             onClick={() => setCallMode("video")}
-            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl cursor-pointer transition shadow-md"
+            className="rounded-full p-3 hover:bg-gray-950 cursor-pointer transition-all"
           >
-            <Video className="w-4 h-4" />
-            Video Call
+            <Video className="w-6 h-6" />
           </button>
+
           <button
             onClick={() => setCallMode("audio")}
-            className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-4 py-2.5 rounded-xl cursor-pointer transition shadow-md"
+            className="rounded-full p-3 hover:bg-gray-950 cursor-pointer transition-all"
           >
-            <Phone className="w-4 h-4" />
-            Voice Only
+            <Phone className="w-6 h-5" />
           </button>
+
         </div>
-      </div>
+      </>
     );
   }
 
@@ -111,7 +112,7 @@ export default function AgoraVideoCall({ channelName, isPublisher }: AgoraProps)
         className="absolute top-4 right-4 z-20 bg-red-600/80 hover:bg-red-600 text-white p-2 rounded-xl border border-red-500/30 cursor-pointer transition"
         title="Leave Stage"
       >
-        <VideoOff className="w-4 h-4" />
+       { callMode === "video" ?  <VideoOff className="w-4 h-4" /> : <PhoneOff className="w-4 h-4" />}
       </button>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 h-full w-full">
