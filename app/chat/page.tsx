@@ -62,6 +62,7 @@ async function ChatPage() {
 
       }
     }).from(messages).where(and(eq(messages.senderId, userId as string), inArray(messages.topicId, fetchedTopics.map(tpc => tpc.id))))
+    .innerJoin(topics, eq(topics.id, messages.topicId))
 
   return (
     <div className="flex flex-1 h-[calc(100vh-65px)] bg-gray-900 text-white overflow-hidden">
@@ -72,6 +73,6 @@ async function ChatPage() {
 
     </div>
   );
-}
+} 
 
 export default ChatPage;
