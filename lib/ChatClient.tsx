@@ -117,7 +117,7 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
           </div>
 
           <div className="text-sm text-slate-300 overflow-y-scroll w-full h-88 scrollbar-none pt-2 pb-3 flex flex-col space-y-4">
-            {currentTopicMessages.reverse().map((msg) => {
+            {currentTopicMessages.map((msg) => {
               const isMe = msg.senderId === userId;
               return (
                 <div 

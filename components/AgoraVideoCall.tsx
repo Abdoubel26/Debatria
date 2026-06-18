@@ -81,6 +81,7 @@ export default function AgoraVideoCall({ channelName, isPublisher }: AgoraProps)
   }, [channelName, isPublisher, callMode]);
 
   if (callMode === "idle") {
+    if(!isPublisher) return null;
     return (
       <>
         <div className="flex">

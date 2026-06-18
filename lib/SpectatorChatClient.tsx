@@ -2,9 +2,18 @@
 
 import { useState, useEffect, useRef } from "react";
 import PusherClient from "pusher-js";
-import AgoraVideoCall from "@/components/AgoraVideoCall";
 import { InferSelectModel } from "drizzle-orm";
 import { messages, topics, users } from "@/db/schema";
+import dynamic from "next/dynamic";
+
+const AgoraVideoCall = dynamic(() => import("@/components/AgoraVideoCall"), {
+  ssr: false, 
+  loading: () => (
+    <div className="w-full h-64 bg-gray-950 border border-gray-800 rounded-2xl flex items-center justify-center text-slate-500 text-xs italic animate-pulse">
+      Loading live broadcast feed...
+    </div>
+  ),
+});
 
 type TopicType = InferSelectModel<typeof topics>;
 type MessageType = InferSelectModel<typeof messages>;
@@ -94,6 +103,14 @@ export default function SpectatorChatClient({ topic, pastMessages, posterUser, o
               </div> 
             );
           })}
+          {topic.status === "in debate" && (
+            <div className="mb-4 w-full px-2">
+              <AgoraVideoCall 
+                channelName={`debate-${topic.id}`}
+                isPublisher={false} 
+              />
+            </div>
+          )}
           <div ref={bottomDivRef}></div>
         </div>
       </div>
