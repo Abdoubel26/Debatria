@@ -1,21 +1,19 @@
 "use client"
 import  Image  from "next/image"
-import  Link  from "next/link"
-import { usePathname } from "next/navigation";
 import { ArrowUp, MessageSquarePlus } from "lucide-react"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PusherClient from "pusher-js";
 import { sendMessageAction } from "./actions/chatActions";
 import { InferSelectModel } from "drizzle-orm";
 import { messages, users } from "@/db/schema"
 
 type UserType = InferSelectModel<typeof users> | null
-type MessageType = InferSelectModel<typeof messages>
+
 
 type PropTypes = {
     topics: EnrichedTopic[]
     users: UserType[],
-    messages: MessageType[],
+    messages: EnrichedMessage[],
     userId: string | null
 }
 
@@ -27,8 +25,9 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
   const [selectedUser, setSelectedUser] = useState<UserType>(null)
   const [activeTopic, setActiveTopic] = useState<EnrichedTopic | null>(null);
 
-  const [chatMessages, setChatMessages] = useState<MessageType[]>(messages);
+  const [chatMessages, setChatMessages] = useState<EnrichedMessage[]>(messages);
   const [inputText, setInputText] = useState("");
+  const bottomDivRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!activeTopic) return;
@@ -39,13 +38,12 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
 
     const channel = pusher.subscribe(`chat-${activeTopic.id}`);
 
-    channel.bind("incoming-message", (newMessage: MessageType) => {
+    channel.bind("incoming-message", (newMessage: EnrichedMessage) => {
       setChatMessages((prev) => {
         if (prev.some((m) => m.id === newMessage.id)) return prev;
         return [...prev, newMessage];
       });
     
-
     })
 
       return () => {
@@ -54,6 +52,10 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
     };
 
   }, [activeTopic]);
+
+  useEffect(() => {
+    bottomDivRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [chatMessages]);
 
   const handleSend = async () => {
     if (!inputText.trim() || !activeTopic || !userId) return;
@@ -68,7 +70,7 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
   
   return (
     <>
-    <div className="flex-1 flex flex-col h-full border-r border-gray-800 p-6 justify-between">
+    <div className="flex-1 flex flex-col h-full border-r border-gray-800  p-6 px-2 justify-between">
         { selectedUser ? <><div>
 
           <div className="border-b border-gray-800 pb-4 mb-4 flex items-center gap-3">
@@ -86,15 +88,25 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
             </div>
           </div>
 
-          <div className="text-sm text-slate-300 space-y-4">
+          <div className="text-sm text-slate-300 overflow-y-scroll w-full h-88 scrollbar-none pt-2 pb-3 flex flex-col space-y-4">
             {currentTopicMessages.map((msg) => {
+              const isMe = msg.senderId === userId;
               return (
-              <div className="bg-gray-800/40 border border-gray-800 rounded-2xl p-4 max-w-[80%]">
-                {msg.text}
+                <div 
+                  key={msg.id} 
+                  className={`border font-semibold rounded-2xl p-3.5 max-w-[80%] transition-all ${
+                    isMe 
+                      ? "self-end bg-indigo-600/30 border-indigo-500/50 text-white rounded-tr-none" 
+                      : "self-start bg-gray-800/40 border-gray-800 text-slate-300 rounded-tl-none" 
+                  }`}
+                >
+                  {msg.text}
                 </div> 
-            )})}
-              
+              );
+            })}
+            <div ref={bottomDivRef}></div>
           </div>
+
         </div>
 
         <div className="flex w-full flex-row">
@@ -170,7 +182,7 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
               setActiveTopic(topic)
             }}
               key={topic.id}
-              className={`w-full flex flex-row items-center gap-3 p-3 rounded-2xl transition-all text-left outline-none border ${
+              className={`w-full flex flex-row cursor-pointer items-center gap-3 p-3 rounded-2xl transition-all text-left outline-none border ${
                 isSelected
                   ? "bg-gray-800 border-gray-700 text-white shadow-md"
                   : "bg-transparent border-transparent text-slate-400 hover:bg-gray-800/40 hover:text-slate-200"

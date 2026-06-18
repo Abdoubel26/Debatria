@@ -119,12 +119,12 @@ async function Feed() {
               { 
               userId === tpc.poster.clerkId ? 
                userId && <form>
-                <input value={userId} name="userId" hidden />
+                <input value={userId} name="userId" readOnly hidden />
               <DeleteBtn topicId={tpc.id} />
               </form>
               :
               userId && <form>
-                <input value={userId} name="userId" hidden />
+                <input value={userId} name="userId" readOnly hidden />
                 <JoinBtn topic={tpc} />
               </form>
               }
