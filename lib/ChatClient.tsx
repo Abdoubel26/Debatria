@@ -15,7 +15,7 @@ type PropTypes = {
     topics: EnrichedTopic[]
     users: UserType[],
     messages: EnrichedMessage[],
-    userId: string | null
+    userId: string | null,
 }
 
 const defaultpfp = "https://plus.unsplash.com/premium_photo-1677252438411-9a930d7a5168?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZGVmYXVsdCUyMHByb2ZpbGUlMjBwaWN0dXJlfGVufDB8fDB8fHww"
@@ -68,7 +68,6 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
   };
 
   const currentTopicMessages = chatMessages.filter(msg => msg.topicId === activeTopic?.id);
-  const isParticipant = userId === activeTopic?.poster.clerkId || userId === activeTopic?.secondParticipant?.clerkId;
 
   return (
     <>
@@ -91,7 +90,7 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
               </div>
             </div>
             <div>
-            { userId && activeTopic && isParticipant && activeTopic.status !== "ended" &&  <form> <EndBtn userId={userId} topicId={activeTopic?.id} /> </form>}
+            { userId && activeTopic && activeTopic.status !== "ended" &&  <form> <EndBtn userId={userId} topicId={activeTopic?.id} /> </form>}
             </div>
           </div>
 
@@ -121,7 +120,6 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
         ?
         <div className="flex w-full flex-row">
             <input 
-            disabled={!isParticipant}
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
@@ -129,7 +127,6 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
             className="bg-gray-800/30 border border-gray-800 w-full disabled:cursor-not-allowed rounded-xl p-3 text-sm text-white placeholder:text-slate-500 focus:outline-0"> 
             </input>
             <button 
-            disabled={!isParticipant}
             onClick={handleSend}
             className="bg-blue-700 p-2.5 disabled:cursor-not-allowed cursor-pointer rounded-full ml-2 ">
                 <ArrowUp />
@@ -137,7 +134,7 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
         </div>
         : 
         <div>
-          This topic is Ended.
+          This Debate Has Ended.
         </div>
         }
         </>

@@ -71,11 +71,11 @@ async function ChatPage() {
     )
   );
 
-  return (
+  return ( 
     <div className="flex flex-1 h-[calc(100vh-65px)] bg-gray-900 text-white overflow-hidden">
       
     
-    <ChatClient topics={fetchedTopics} userId={userId} messages={fetchedMessages} users={fetchedUsers}/>
+    <ChatClient topics={fetchedTopics}  userId={userId} messages={fetchedMessages} users={fetchedUsers}/>
       
 
     </div>

@@ -108,7 +108,7 @@ async function MyTopics() {
 
               {userId &&
               <form className="gap-4 flex flex-row">
-                <input value={userId} name="userId" hidden />
+                <input value={userId} readOnly name="userId" hidden />
               <DeleteBtn topicId={tpc.id} /> 
               { tpc.status !== "ended" && <EndBtn userId={userId} topicId={tpc.id} />}
               </form>

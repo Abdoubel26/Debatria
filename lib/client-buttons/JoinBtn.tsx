@@ -15,7 +15,7 @@ function JoinBtn({topic}: PropTypes) {
   return (
      <button
     disabled={pending}
-    formAction={ topic.secondParticipant ? () => redirect("/chat") : joinDebate.bind(null, topic.id)}
+    formAction={ topic.secondParticipant ? () => redirect(`/chat/${topic.id}`) : joinDebate.bind(null, topic.id)}
                 className={`rounded-xl cursor-pointer px-4 py-2 text-sm font-medium transition-all ${
                   topic.status === "open"
                     ? ( pending ? "bg-slate-200 text-slate-800" : "bg-slate-100 text-slate-950 hover:bg-white shadow-sm")
