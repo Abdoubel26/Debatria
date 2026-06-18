@@ -4,8 +4,9 @@ import { ArrowUp, MessageSquarePlus } from "lucide-react"
 import { useState, useEffect, useRef } from "react";
 import PusherClient from "pusher-js";
 import { sendMessageAction } from "./actions/chatActions";
-import { InferSelectModel } from "drizzle-orm";
+import { InferSelectModel, is } from "drizzle-orm";
 import { messages, users } from "@/db/schema"
+import EndBtn from "./client-buttons/EndBtn";
 
 type UserType = InferSelectModel<typeof users> | null
 
@@ -55,7 +56,7 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
 
   useEffect(() => {
     bottomDivRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [chatMessages]);
+  }, [chatMessages, activeTopic]);
 
   const handleSend = async () => {
     if (!inputText.trim() || !activeTopic || !userId) return;
@@ -67,24 +68,30 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
   };
 
   const currentTopicMessages = chatMessages.filter(msg => msg.topicId === activeTopic?.id);
-  
+  const isParticipant = userId === activeTopic?.poster.clerkId || userId === activeTopic?.secondParticipant?.clerkId;
+
   return (
     <>
     <div className="flex-1 flex flex-col h-full border-r border-gray-800  p-6 px-2 justify-between">
         { selectedUser ? <><div>
 
-          <div className="border-b border-gray-800 pb-4 mb-4 flex items-center gap-3">
-            <div className="relative h-10 w-10">
-              <Image
-                src={selectedUser?.imageUrl || defaultpfp }
-                alt={selectedUser?.name || "user"}
-                fill
-                className="rounded-full object-cover"
-              />
+          <div className="border-b border-gray-800 pb-4 mb-4 flex justify-between items-center ">
+           <div className="flex gap-3">
+              <div className="relative h-10 w-10">
+                <Image
+                  src={selectedUser?.imageUrl || defaultpfp }
+                  alt={selectedUser?.name || "user"}
+                  fill
+                  className="rounded-full object-cover"
+                />
+              </div>
+              <div>
+                <h2 className="text-base font-semibold text-white">{selectedUser?.name}</h2>
+                <p className="text-xs text-violet-400 font-medium">{topics.find((tpc) => tpc.poster.clerkId === selectedUser?.clerkId || tpc.secondParticipant?.clerkId === userId)?.title}</p>
+              </div>
             </div>
             <div>
-              <h2 className="text-base font-semibold text-white">{selectedUser?.name}</h2>
-              <p className="text-xs text-violet-400 font-medium">{topics.find((tpc) => tpc.poster.clerkId === selectedUser?.clerkId || tpc.secondParticipant?.clerkId === userId)?.title}</p>
+            { userId && activeTopic && isParticipant && activeTopic.status !== "ended" &&  <form> <EndBtn userId={userId} topicId={activeTopic?.id} /> </form>}
             </div>
           </div>
 
@@ -109,20 +116,30 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
 
         </div>
 
+        { 
+        activeTopic?.status !== "ended" 
+        ?
         <div className="flex w-full flex-row">
             <input 
+            disabled={!isParticipant}
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
             placeholder={`Type a response ${selectedUser?.name ? "to " + selectedUser.name  : ""}...`} 
-            className="bg-gray-800/30 border border-gray-800 w-full rounded-xl p-3 text-sm text-white placeholder:text-slate-500 focus:outline-0"> 
+            className="bg-gray-800/30 border border-gray-800 w-full disabled:cursor-not-allowed rounded-xl p-3 text-sm text-white placeholder:text-slate-500 focus:outline-0"> 
             </input>
             <button 
+            disabled={!isParticipant}
             onClick={handleSend}
-            className="bg-blue-700 p-2.5 cursor-pointer rounded-full ml-2 ">
+            className="bg-blue-700 p-2.5 disabled:cursor-not-allowed cursor-pointer rounded-full ml-2 ">
                 <ArrowUp />
             </button>
         </div>
+        : 
+        <div>
+          This topic is Ended.
+        </div>
+        }
         </>
         :
         <div className="flex flex-1 flex-col items-center justify-center bg-gray-900 p-8 text-center h-full border border-gray-800/40 rounded-2xl backdrop-blur-sm m-4">

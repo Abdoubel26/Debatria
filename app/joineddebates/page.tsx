@@ -2,6 +2,7 @@ import { db } from '@/db';
 import { topics, users } from '@/db/schema';
 import { eq, aliasedTable } from "drizzle-orm"
 import { auth } from "@clerk/nextjs/server"
+import EndBtn from '@/lib/client-buttons/EndBtn';
 
 
 interface EnrichedTopic {
@@ -27,7 +28,6 @@ const defaultpfp = "https://plus.unsplash.com/premium_photo-1677252438411-9a930d
 
 
 async function JoinedDebatesPage() {
-
 
   const {userId} = await auth()
 
@@ -119,11 +119,8 @@ async function JoinedDebatesPage() {
                 )}
               </div>
 
-              <button
-                className={`rounded-xl px-4 py-2 text-sm font-medium transition-all bg-red-800 cursor-pointer text-white `}
-              >
-                Leave
-              </button>
+            { userId &&  tpc.status !== "ended" && <form><EndBtn topicId={tpc.id} userId={userId} /></form>}
+
             </div>
           </div>
         </div>

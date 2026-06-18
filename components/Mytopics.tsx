@@ -5,6 +5,7 @@ import { auth } from "@clerk/nextjs/server"
 import { Frown } from "lucide-react"
 import Link from 'next/link';
 import DeleteBtn from '@/lib/client-buttons/DeleteBtn';
+import EndBtn from '@/lib/client-buttons/EndBtn';
 
 
 const defaultpfp = "https://plus.unsplash.com/premium_photo-1677252438411-9a930d7a5168?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZGVmYXVsdCUyMHByb2ZpbGUlMjBwaWN0dXJlfGVufDB8fDB8fHww"
@@ -106,11 +107,13 @@ async function MyTopics() {
               </div>
 
               {userId &&
-              <form>
+              <form className="gap-4 flex flex-row">
                 <input value={userId} name="userId" hidden />
-              <DeleteBtn topicId={tpc.id} />
+              <DeleteBtn topicId={tpc.id} /> 
+              { tpc.status !== "ended" && <EndBtn userId={userId} topicId={tpc.id} />}
               </form>
               }
+              
               
             </div>
           </div>

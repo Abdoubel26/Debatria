@@ -49,3 +49,18 @@ export const deleteDebate = async (topicId: string) => {
 
     redirect("/mytopics")
 }
+
+
+export const endDebate = async (topicId: string, userId: string) => {
+
+    const [topic] = await db.select().from(topics).where(eq(topics.id, topicId))
+
+    const isParticipant = topic.posterId === userId || topic.secondParticipantId === userId
+
+    if(!isParticipant) return;
+
+    await db.update(topics).set({status: "ended"}).where(eq(topics.id, topicId))
+
+    redirect("/")
+
+}
