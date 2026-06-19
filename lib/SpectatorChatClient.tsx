@@ -60,67 +60,66 @@ export default function SpectatorChatClient({ topic, pastMessages, posterUser, o
   }, [chatMessages]);
 
   return (
-    <div className="flex-1 flex flex-col h-full border-r border-gray-800 p-6 px-2 justify-between max-w-5xl mx-auto w-full bg-gray-900">
-      <div>
+   <div className="flex-1 flex flex-col h-full border-r border-gray-800 dark:border-gray-800 p-6 px-2 justify-between max-w-5xl mx-auto w-full bg-gray-900 dark:bg-gray-900 bg-slate-100">
+  <div>
 
-        <div className="border-b border-gray-800 pb-4 mb-4 flex justify-between items-center">
-          <div className="flex w-full items-center gap-3">
-            <div className=" w-full flex flex-col justify-center items-center">
-              <div className="flex items-center gap-2">
-                <h2 className="text-base font-semibold text-white">
-                  {topic.title}
-                </h2>
-                
-              </div>
-              <p className="text-xs text-violet-400 font-medium truncate max-w-xl">
-                 {posterUser?.name} <span className="text-white">vs</span>  {opponentUser?.name}
-              </p>
-            </div>
+    <div className="border-b  dark:border-gray-800 border-slate-300 pb-4 mb-4 flex justify-between items-center">
+      <div className="flex w-full items-center gap-3">
+        <div className=" w-full flex flex-col justify-center items-center">
+          <div className="flex items-center gap-2">
+            <h2 className="text-base font-semibold dark:text-white text-slate-900">
+              {topic.title}
+            </h2>
+            
           </div>
+          <p className="text-xs  dark:text-violet-400 text-violet-600 font-medium truncate max-w-xl">
+            {posterUser?.name} <span className=" dark:text-white text-slate-900">vs</span> {opponentUser?.name}
+          </p>
         </div>
-
-
-        <div className="text-sm text-slate-300 overflow-y-scroll w-full h-88 scrollbar-none pt-2 pb-3 flex flex-col space-y-4">
-          {chatMessages.map((msg) => {
-            const isPoster = msg.senderId === topic.posterId;
-            const currentSender = isPoster ? posterUser : opponentUser;
-
-            return (
-              <div 
-                key={msg.id} 
-                className={`border font-semibold rounded-2xl p-3.5 max-w-[80%] transition-all ${
-                  isPoster 
-                    ? "self-start bg-gray-800/40 border-gray-800 text-slate-300 rounded-tl-none" 
-                    : "self-end ml-auto bg-indigo-600/30 border-indigo-500/50 text-white rounded-tr-none" 
-                }`}
-              >
-                <div className="flex items-center gap-1.5 mb-1.5 select-none opacity-60">
-                  <span className="text-[10px] text-slate-400 font-medium">
-                    {currentSender?.name || "Debater"}
-                  </span>
-                </div>
-                <p className="whitespace-pre-wrap leading-relaxed">{msg.text}</p>
-              </div> 
-            );
-          })}
-          {topic.status === "in debate" && (
-            <div className="mb-4 w-full px-2">
-              <AgoraVideoCall 
-                channelName={`debate-${topic.id}`}
-                isPublisher={false} 
-              />
-            </div>
-          )}
-          <div ref={bottomDivRef}></div>
-        </div>
-      </div>
-
-      <div className="w-full text-center justify-center items-center flex h-full pt-3.5 text-xs border-t border-gray-300 text-slate-500 bg-gray-900/10 font-medium tracking-wide select-none">
-        🔒 You are viewing this stage live. Messaging capabilities are restricted to official participants.
-        <span className="bg-indigo-600/10 ml-1.5 text-indigo-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-indigo-500/20 tracking-wider uppercase select-none">
-          Audience Mode
-        </span>
       </div>
     </div>
+
+    <div className="text-sm dark:text-slate-300 text-slate-600 overflow-y-scroll w-full h-88 scrollbar-none pt-2 pb-3 flex flex-col space-y-4">
+      {chatMessages.map((msg) => {
+        const isPoster = msg.senderId === topic.posterId;
+        const currentSender = isPoster ? posterUser : opponentUser;
+
+        return (
+          <div 
+            key={msg.id} 
+            className={`border font-semibold rounded-2xl p-3.5 max-w-[80%] transition-all ${
+              isPoster 
+                ? "self-start dark:bg-gray-800/40 bg-slate-200/40 border-gray-800 dark:border-gray-800 dark:text-slate-300 text-slate-700 rounded-tl-none" 
+                : "self-end ml-aut dark:bg-indigo-600/30 bg-indigo-200/30 dark:border-indigo-500/50 border-indigo-300/50 dark:text-white text-black rounded-tr-none" 
+            }`}
+          >
+            <div className="flex items-center gap-1.5 mb-1.5 select-none opacity-60">
+              <span className="text-[10px]  dark:text-slate-400 text-slate-500 font-medium">
+                {currentSender?.name || "Debater"}
+              </span>
+            </div>
+            <p className="whitespace-pre-wrap leading-relaxed">{msg.text}</p>
+          </div> 
+        );
+      })}
+      {topic.status === "in debate" && (
+        <div className="mb-4 w-full px-2">
+          <AgoraVideoCall 
+            channelName={`debate-${topic.id}`}
+            isPublisher={false} 
+          />
+        </div>
+      )}
+      <div ref={bottomDivRef}></div>
+    </div>
+  </div>
+
+  <div className="w-full text-center justify-center items-center flex h-full pt-3.5 text-xs border-t dark:border-gray-800 border-slate-300 dark:text-slate-500 text-slate-600  dark:bg-gray-900/10  font-medium tracking-wide select-none">
+    🔒 You are viewing this stage live. Messaging capabilities are restricted to official participants.
+    <span className=" dark:bg-indigo-600/10 bg-indigo-200/10 ml-1.5 dark:text-indigo-400 text-indigo-600 text-[10px] font-bold px-2 py-0.5 rounded-full border border-indigo-500/20 dark:border-indigo-500/20  tracking-wider uppercase select-none">
+      Audience Mode
+    </span>
+  </div>
+</div>
   );
 }
