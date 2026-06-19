@@ -187,30 +187,26 @@ function ChatClient({
                 </div>
               </div>
 
-              <div className="text-sm text-zinc-600 dark:text-slate-300 overflow-y-scroll w-full h-88 scrollbar-none pt-2 pb-3 flex flex-col space-y-4">
-                {currentTopicMessages
-                  .reverse()
-                  .map((msg) => {
-                    const isMe =
-                      msg.senderId === userId;
+          <div className="text-sm text-slate-300 overflow-y-scroll w-full h-88 scrollbar-none pt-2 pb-3 flex flex-col space-y-4">
+            {currentTopicMessages.reverse().map((msg) => {
+              const isMe = msg.senderId === userId;
+              return (
+                <div 
+                  key={msg.id} 
+                  className={`border font-semibold rounded-2xl p-3.5 max-w-[80%] transition-all ${
+                    isMe 
+                      ? "self-end bg-indigo-600/30 border-indigo-500/50 text-white rounded-tr-none" 
+                      : "self-start bg-gray-800/40 border-gray-800 text-slate-300 rounded-tl-none" 
+                  }`}
+                >
+                  {msg.text}
+                </div> 
+              );
+            })}
+            <div ref={bottomDivRef}></div>
+          </div>
 
-                    return (
-                      <div
-                        key={msg.id}
-                        className={`border font-semibold rounded-2xl p-3.5 max-w-[80%] transition-all ${
-                          isMe
-                            ? "self-end bg-indigo-100 border-indigo-200 text-zinc-800 dark:bg-indigo-600/30 dark:border-indigo-500/50 dark:text-white rounded-tr-none"
-                            : "self-start bg-zinc-100 border-zinc-200 text-zinc-700 dark:bg-gray-800/40 dark:border-gray-800 dark:text-slate-300 rounded-tl-none"
-                        }`}
-                      >
-                        {msg.text}
-                      </div>
-                    );
-                  })}
-
-                <div ref={bottomDivRef}></div>
-              </div>
-            </div>
+        </div>
 
             {activeTopic?.status !== "ended" ? (
               <div className="flex w-full flex-row">
