@@ -30,7 +30,6 @@ type PropTypes = {
 
 const defaultpfp = "https://plus.unsplash.com/premium_photo-1677252438411-9a930d7a5168?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZGVmYXVsdCUyMHByb2ZpbGUlMjBwaWN0dXJlfGVufDB8fDB8fHww"
 
-
 function ChatClient({ topics, users, messages, userId }: PropTypes) {
 
   const [selectedUser, setSelectedUser] = useState<UserType>(null)
@@ -159,19 +158,18 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
         }
         </>
         :
-        <div className="flex flex-1 flex-col items-center justify-center bg-gray-900 p-8 text-center h-full border border-gray-800/40 rounded-2xl backdrop-blur-sm m-4">
+        <div className="flex flex-1 flex-col items-center justify-center bg-zinc-100 dark:bg-gray-900 p-8 text-center h-full border border-zinc-200 dark:border-gray-800/40 rounded-2xl backdrop-blur-sm m-4">
+          <div className="flex h-20 w-20 items-center justify-center rounded-3xl border border-zinc-300 dark:border-gray-800 bg-zinc-200/30 dark:bg-gray-800/20 text-indigo-500 dark:text-indigo-400 mb-6 shadow-xl relative group">
 
-          <div className="flex h-20 w-20 items-center justify-center rounded-3xl border border-gray-800 bg-gray-800/20 text-indigo-400 mb-6 shadow-xl relative group">
-
-            <div className="absolute inset-0 bg-indigo-500/10 rounded-3xl blur-xl opacity-50 group-hover:opacity-100 transition-opacity" />
-            <MessageSquarePlus className="w-10 h-10 stroke-[1.5] relative z-10" />
+          <div className="absolute inset-0 bg-indigo-500/10 rounded-3xl blur-xl group-hover:opacity-100 transition-opacity" />
+            <MessageSquarePlus className="w-10 h-10  relative z-10" />
           </div>
 
-          <h2 className="text-xl font-bold text-white tracking-tight">
+          <h2 className="text-xl font-bold text-zinc-800 dark:text-white tracking-tight">
             Your Debating Will Happen Here
           </h2>
 
-          <p className="mt-2 text-sm text-slate-400 max-w-sm leading-relaxed">
+          <p className="mt-2 text-sm text-zinc-500 dark:text-slate-400 max-w-sm leading-relaxed">
             Select an active discussion from your list to open the argument panel, or head over to the dashboard to join a brand new topic.
           </p>
 
@@ -180,7 +178,7 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
 
       </div>
 
-    <div className="w-80 bg-gray-900/50 flex flex-col overflow-y-auto p-4 gap-3 select-none">
+    <div className="w-80 dark:bg-gray-900/50 bg-slate-200 flex flex-col overflow-y-auto p-4 gap-3 select-none">
         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 px-2 mb-1">
           Debates
         </h3>
@@ -246,14 +244,14 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
           );
         })
         : 
-      <div className="flex flex-1 flex-col items-center justify-center text-center p-8 animate-fade-in my-auto">
-      <div className="flex h-30 w-30 items-center justify-center rounded-2xl border border-gray-800 bg-gray-800/30 text-gray-500 mb-4 shadow-inner backdrop-blur-sm">
+      <div className="flex flex-1 flex-col items-center justify-center dark:bg-gray-900 bg-slate-200 text-center p-8 animate-fade-in my-auto">
+      <div className="flex h-30 w-30 items-center justify-center rounded-2xl border border-gray-800 bg-slate-300 dark:bg-gray-800/30 text-gray-500 mb-4 shadow-inner backdrop-blur-sm">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-16 h-16 text-slate-500">
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.25 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z" />
         </svg>
       </div>
       
-      <h3 className=" p-1.5 text-2xl font-semibold text-slate-200 tracking-tight">
+      <h3 className=" p-1.5 text-2xl font-semibold dark:text-slate-200 text-black tracking-tight ">
         No debates joined yet
       </h3>
       <p className="mt-1 text-md p-1 text-slate-500 max-w-xs">

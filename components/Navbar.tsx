@@ -9,7 +9,7 @@ async function Navbar() {
  const { userId } = await auth();
 
   return (
-    <div className="sticky top-0 z-40 border-b border-slate-100 bg-zinc-200 backdrop-blur-md dark:border-gray-800 dark:bg-gray-900">
+    <div className="sticky select-none top-0 z-40 border-b border-slate-100 bg-zinc-200 backdrop-blur-md dark:border-gray-800 dark:bg-gray-900">
   <div className="max-w-7xl mx-auto w-full px-4 py-3 sm:px-6 ">
     <div className="flex items-center justify-between">
 
