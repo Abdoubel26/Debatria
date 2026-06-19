@@ -4,8 +4,7 @@ import { db } from '@/db';
 import { messages, topics, users } from '@/db/schema';
 import { eq, aliasedTable, or, and , inArray } from "drizzle-orm"
 import { auth } from "@clerk/nextjs/server"
-import ChatClient from "@/lib/ChatClient";
-
+import ChatClient from "@/components/ChatClient"
 
 async function ChatPage() {
 
@@ -72,12 +71,8 @@ async function ChatPage() {
   );
 
   return ( 
-    <div className="flex flex-1 h-[calc(100vh-65px)] bg-gray-900 text-white overflow-hidden">
-      
-    
-    <ChatClient topics={fetchedTopics}  userId={userId} messages={fetchedMessages} users={fetchedUsers}/>
-      
-
+    <div className="flex flex-1 h-[calc(100vh-65px)] bg-zinc-100 text-zinc-800 overflow-hidden dark:bg-gray-900 dark:text-white">
+      <ChatClient topics={fetchedTopics} userId={userId} messages={fetchedMessages} users={fetchedUsers}/>
     </div>
   );
 } 
