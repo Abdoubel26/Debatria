@@ -8,6 +8,7 @@ import { InferSelectModel, is } from "drizzle-orm";
 import { users } from "@/db/schema"
 import EndBtn from "../lib/client-buttons/EndBtn";
 import dynamic from "next/dynamic";
+import JoinBtn from "@/lib/client-buttons/JoinBtn";
 
 const AgoraVideoCall = dynamic(() => import("@/components/AgoraVideoCall"), {
   ssr: false, 
