@@ -81,13 +81,13 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
 
   return (
     <>
-    <div className="flex-1 flex flex-col h-full border-r border-gray-800  p-6 px-2 justify-between">
+    <div className="flex-1 flex flex-col h-full border-r md:overflow-y-scroll border-gray-800  p-6 px-2 justify-between">
         { selectedUser ? <><div>
 
 
-          <div className="border-b border-gray-800 pb-4 mb-4 flex justify-between items-center ">
-           <div className="flex gap-3">
-              <div className="relative h-10 w-10">
+          <div className="border-b border-gray-800 lg:pb-4 lg:mb-4 md:pb-4 flex justify-between items-center ">
+           <div className="flex flex-row  items-center justify-center gap-3">
+              <div className="relative h-[6%] w-[6%]">
                 <Image
                   src={selectedUser?.imageUrl || defaultpfp }
                   alt={selectedUser?.name || "user"}
@@ -97,7 +97,7 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
               </div>
               <div>
                 <h2 className="text-base font-semibold text-white">{selectedUser?.name}</h2>
-                <p className="text-xs text-violet-400 font-medium">{topics.find((tpc) => tpc.poster.clerkId === selectedUser?.clerkId || tpc.secondParticipant?.clerkId === userId)?.title}</p>
+                <p className="text-xs text-violet-400 font-medium whitespace-nowrap">{topics.find((tpc) => tpc.poster.clerkId === selectedUser?.clerkId || tpc.secondParticipant?.clerkId === userId)?.title}</p>
               </div>
             </div>
               
@@ -130,7 +130,7 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
                 </div> 
               );
             })}
-            <div ref={bottomDivRef}></div>
+            <div ref={bottomDivRef} className="w-0 h-0"></div>
           </div>
 
         </div>
@@ -148,7 +148,7 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
             </input>
             <button 
             onClick={handleSend}
-            className="bg-blue-700 p-2.5 disabled:cursor-not-allowed cursor-pointer rounded-full ml-2 ">
+            className="bg-blue-700 p-2.5  disabled:cursor-not-allowed cursor-pointer rounded-full ml-2 ">
                 <ArrowUp />
             </button>
         </div>
@@ -179,7 +179,7 @@ function ChatClient({ topics, users, messages, userId }: PropTypes) {
 
       </div>
 
-    <div className="w-80 dark:bg-gray-900/50 bg-slate-200 flex flex-col overflow-y-auto p-4 gap-3 select-none">
+    <div className="w-[25%] dark:bg-gray-900/50 overflow-y-scroll bg-slate-200 flex flex-col p-4 gap-3 select-none">
         <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 px-2 mb-1">
           Debates
         </h3>

@@ -6,7 +6,7 @@ async function Sidebar() {
   const { userId } = await auth()
 
   return (
-    <div className="flex flex-col gap-2 p-3 w-72 h-full border-r border-zinc-200/80 bg-zinc-50 text-zinc-800 select-none dark:border-gray-800 dark:bg-gray-900 dark:text-white">
+    <div className=" hidden lg:flex md:flex flex-col gap-2 p-3 w-[22%] h-full border-r border-zinc-200/80 bg-zinc-50 text-zinc-800 select-none dark:border-gray-800 dark:bg-gray-900 dark:text-white">
       <SidebarLinks />
     </div>
   )

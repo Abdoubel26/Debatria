@@ -27,8 +27,8 @@ async function NewTopic() {
   ];
 
   return (
-    <div className="bg-zinc-100 dark:bg-gray-900 flex flex-col flex-1 items-center justify-center p-4">
-  <div className="w-full max-w-2xl bg-white/80 border border-zinc-200/80 rounded-3xl p-5 sm:p-8 shadow-sm backdrop-blur-xs dark:bg-gray-800/40 dark:border-gray-800 dark:shadow-xl">
+    <div className="bg-zinc-100 dark:bg-gray-900 flex flex-col flex-1 lg:overflow-y-clip lg:pt-0 md:pt-50 md:overflow-y-scroll items-center justify-center">
+  <div className="w-full max-w-2xl bg-white/80 h-fit border border-zinc-200/80 rounded-2xl p-5 sm:p-8 shadow-sm backdrop-blur-xs dark:bg-gray-800/40 dark:border-gray-800 dark:shadow-xl">
     
     <div className="mb-6">
       <h1 className="text-2xl font-bold text-zinc-800 tracking-tight dark:text-white">
