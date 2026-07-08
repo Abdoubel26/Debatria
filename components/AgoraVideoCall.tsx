@@ -168,7 +168,7 @@ export default function AgoraVideoCall({ channelName, isPublisher }: AgoraProps)
         ))}
         
         {remoteUsers.length === 0 && (
-          <div className="bg-gray-900/40 flex items-center justify-center text-slate-500 text-xs italic font-medium w-full border border-dashed border-gray-800 rounded-xl min-h-[240px] aspect-video">
+          <div className="bg-gray-900/40 flex items-center justify-center text-slate-500 text-xs italic font-medium w-full border border-dashed border-gray-800 rounded-xl min-h-60 aspect-video">
             Waiting for opponent to connect...
           </div>
         )}
@@ -194,7 +194,7 @@ function LocalVideoPlayer({ videoTrack, callMode }: { videoTrack: ICameraVideoTr
   return (
     <div 
       ref={localRef} 
-      className="bg-gray-900 rounded-xl relative overflow-hidden w-full min-h-[240px] aspect-video border border-gray-800/80 flex items-center justify-center"
+      className="bg-gray-900 rounded-xl relative overflow-hidden w-full min-h-60 aspect-video border border-gray-800/80 flex items-center justify-center"
     >
       {callMode === "audio" && (
         <div className="text-emerald-400 text-xs font-semibold animate-pulse z-10">
@@ -225,7 +225,7 @@ function RemoteVideoPlayer({ uid, videoTrack }: RemotePlayerProps) {
   return (
     <div 
       ref={containerRef} 
-      className="bg-gray-900 rounded-xl relative overflow-hidden w-full min-h-[240px] aspect-video border border-gray-800/80 flex items-center justify-center"
+      className="bg-gray-900 rounded-xl relative overflow-hidden w-full min-h-60 aspect-video border border-gray-800/80 flex items-center justify-center"
     >
       {!videoTrack && (
         <div className="text-indigo-400 text-xs font-semibold animate-pulse uppercase tracking-wider z-10">
