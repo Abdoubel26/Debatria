@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
+import { ClerkProvider } from '@clerk/nextjs'
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
+import SidebarLinks from "@/lib/SidebarLinks"; // Import links to reuse here
 import { ThemeProvider } from "@/components/ThemeProvider";
 
 const geistSans = Geist({
@@ -36,10 +37,16 @@ export default function RootLayout({
         <ThemeProvider>
           <ClerkProvider>
             <Navbar />
-            <div className="h-[calc(100vh-61px)] flex flex-row">
+            
+            <div className="h-[calc(100vh-61px)] pb-16 md:pb-0 flex flex-row relative">
               <Sidebar />
               {children}
+
+              <div className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-zinc-50 border-t border-zinc-200/80 dark:bg-gray-950 dark:border-gray-850 z-50 shadow-lg">
+                <SidebarLinks mode="bottombar" />
+              </div>
             </div>
+
           </ClerkProvider>
         </ThemeProvider>
       </body>

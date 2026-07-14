@@ -149,7 +149,7 @@ async function JoinedDebatesPage() {
 
         </div>
 
-        <div className="w-full sm:w-auto flex justify-end shrink-0">
+        <div className="w-full sm:w-auto flex justify-center lg:justify-end shrink-0">
       { userId &&  tpc.status !== "ended" && <form><EndBtn topicId={tpc.id} userId={userId} /></form>}    
         </div>
 

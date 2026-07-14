@@ -1,10 +1,8 @@
 import { auth } from '@clerk/nextjs/server';
-import React from 'react';
 import { addTopic } from "../lib/actions/actions"
 import { redirect } from 'next/navigation';
-import Form from 'next/dist/client/app-dir/form';
-import { FormData } from 'next/dist/compiled/@edge-runtime/primitives';
 import AddBtn from '@/lib/client-buttons/AddBtn';
+import Link from 'next/link';
 
 async function NewTopic() {
 
@@ -27,7 +25,7 @@ async function NewTopic() {
   ];
 
   return (
-    <div className="bg-zinc-100 dark:bg-gray-900 flex flex-col flex-1 lg:overflow-y-clip lg:pt-0 md:pt-50 md:overflow-y-scroll items-center justify-center">
+    <div className="bg-zinc-100 dark:bg-gray-900 flex flex-col flex-1 lg:overflow-y-clip overflow-y-scroll pb-5 pt-35 px-4 lg:pt-0 md:pt-50 md:overflow-y-scroll items-center justify-center">
   <div className="w-full max-w-2xl bg-white/80 h-fit border border-zinc-200/80 rounded-2xl p-5 sm:p-8 shadow-sm backdrop-blur-xs dark:bg-gray-800/40 dark:border-gray-800 dark:shadow-xl">
     
     <div className="mb-6">
@@ -99,12 +97,12 @@ async function NewTopic() {
       </div>
 
       <div className="mt-2 flex items-center justify-end gap-3">
-        <button
+        <Link href="/"><button
           type="button"
           className="rounded-xl cursor-pointer px-5 py-2.5 text-sm font-medium text-zinc-500 hover:text-zinc-800 transition dark:text-slate-400 dark:hover:text-white"
         >
           Cancel
-        </button>
+        </button></Link>
         <AddBtn />
       </div>
 

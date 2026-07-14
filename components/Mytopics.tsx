@@ -154,7 +154,7 @@ async function MyTopics() {
 
           </div>
 
-          <div className="w-full sm:w-auto flex justify-end shrink-0">
+          <div className="w-full sm:w-auto flex justify-center lg:justify-end shrink-0">
               {userId &&
             <form className="gap-4 flex flex-row">
               <input value={userId} readOnly name="userId" hidden />

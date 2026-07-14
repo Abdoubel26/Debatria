@@ -9,11 +9,11 @@ async function Navbar() {
  const { userId } = await auth();
 
   return (
-    <div className="sticky select-none hidden lg:flex md:flex top-0 z-40 border-b border-slate-100 bg-zinc-200 backdrop-blur-md dark:border-gray-800 dark:bg-gray-900">
+    <div className="sticky select-none flex md:flex top-0 z-40 border-b border-slate-100 bg-zinc-200 backdrop-blur-md dark:border-gray-800 dark:bg-gray-900">
   <div className="max-w-7xl mx-auto w-full px-4 py-3 sm:px-6 ">
-    <div className="flex items-center justify-between">
+    <div className="flex items-center lg:justify-between justify-end">
 
-      <Link href="/" className="flex items-center gap-3 group">
+      <Link href="/" className=" items-center hidden lg:flex gap-3 group">
         <span className="hidden text-xl font-semibold text-slate-700 dark:text-white sm:inline tracking-tight">Debatria</span>
       </Link>
 

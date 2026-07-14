@@ -149,18 +149,18 @@ async function Feed() {
 
           </div>
 
-          <div className="w-full sm:w-auto flex justify-end shrink-0">
+          <div className="w-full sm:w-auto flex justify-center dark:border-gray-800 lg:justify-end shrink-0">
             { 
             userId === tpc.poster.clerkId ? 
-            <form className="w-full sm:w-auto">
+            <form className=" sm:w-auto">
               <input value={userId} name="userId" readOnly hidden />
               <DeleteBtn topicId={tpc.id} />
             </form> 
             :
             userId === tpc.secondParticipant?.clerkId ? 
-            <form className="w-full sm:w-auto"><EndBtn topicId={tpc.id} userId={userId} /></form> 
+            <form className=" sm:w-auto"><EndBtn topicId={tpc.id} userId={userId} /></form> 
             :
-            userId && <form className="w-full sm:w-auto">
+            userId && <form className=" sm:w-auto">
               <input value={userId} name="userId" readOnly hidden />
               <JoinBtn topic={tpc} />
             </form>
